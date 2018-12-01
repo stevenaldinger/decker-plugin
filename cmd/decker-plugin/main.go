@@ -9,26 +9,26 @@ import (
 type plugin string
 
 // --- wants input: ---
-// inputs_map{
+// inputsMap{
 //   "host": "example.com",
-//   "plugin_enabled": "true",
+//   "pluginEnabled": "true",
 // }
 //
 // --- gives output: ---
-// results_map{
+// resultsMap{
 //  "raw_output": "...",
 // }
-func (p plugin) Run(inputs_map, results_map *map[string]string) {
+func (p plugin) Run(inputsMap, resultsMap *map[string]string) {
 	var (
 		cmdOut []byte
 		err    error
 	)
 
-	target_host := (*inputs_map)["host"]
-	plugin_enabled := (*inputs_map)["plugin_enabled"]
+	targetHost := (*inputsMap)["host"]
+	pluginEnabled := (*inputsMap)["plugin_enabled"]
 
 	cmdName := "echo"
-	cmdArgs := []string{"Hello World!", "\nhost:", target_host, "\nplugin_enabled:", plugin_enabled}
+	cmdArgs := []string{"Hello World!", "\nhost:", targetHost, "\nplugin_enabled:", pluginEnabled}
 
 	if cmdOut, err = exec.Command(cmdName, cmdArgs...).Output(); err != nil {
 		fmt.Fprintln(os.Stderr, "There was an error running decker-plugin: ", err)
@@ -37,7 +37,7 @@ func (p plugin) Run(inputs_map, results_map *map[string]string) {
 
 	output := string(cmdOut)
 
-	(*results_map)["raw_output"] = output
+	(*resultsMap)["raw_output"] = output
 }
 
 var Plugin plugin
